@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.Aquamarine;
+import com.mygdx.game.Entities.Player;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.BodyBuilder;
 
@@ -37,6 +38,8 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+    private Player player;
+
     public PlayScreen(Aquamarine game){
         this.game = game;
 
@@ -45,12 +48,15 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
         hud = new HUD(game.batch);
 
+
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("test.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1/Aquamarine.PPM);
 
         world = new World(new Vector2(0, -10 / Aquamarine.PPM), true);
         b2dr = new Box2DDebugRenderer();
+
+        player = new Player(world, map);
 
         BodyBuilder.buildDynamicBodies(map, world, "1", 0);
         BodyBuilder.buildDynamicBodies(map, world, "2", 0);
