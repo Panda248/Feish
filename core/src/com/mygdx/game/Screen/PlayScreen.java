@@ -50,8 +50,8 @@ public class PlayScreen implements Screen {
 
         player = new Player(world, map);
 
-        BodyBuilder.buildDynamicBodies(map, world, "1", 0);
-        BodyBuilder.buildDynamicBodies(map, world, "2", 0);
+        BodyBuilder.buildDynamicBodies(map, world, "1", 1);
+        BodyBuilder.buildDynamicBodies(map, world, "2", 1);
 
 
     }
@@ -64,6 +64,9 @@ public class PlayScreen implements Screen {
 
     public void update(float dt){
         handleInput(dt);
+
+        world.step(1/60f, 6, 2);
+
         gameCam.update();
         mapRenderer.setView(gameCam);
     }
