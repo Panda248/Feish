@@ -14,25 +14,6 @@ public class BodyBuilder {
 
     public enum BodyType{STATIC, DYNAMIC, KINEMATIC}
 
-    public static void buildPlayer(TiledMap tiledMap, World world, String layer, int density, Player plr ) {
-        MapObject plrObj = tiledMap.getLayers().get(layer).getObjects().get(0);
-        Rectangle rectangle = ((RectangleMapObject)plrObj).getRectangle();
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(rectangle.getX() + rectangle.getWidth()/2, rectangle.getY() + rectangle.getHeight()/2);
-        Body body = world.createBody(bodyDef);
-
-
-
-        //create a fixture for each body from the shape
-        Fixture fixture = body.createFixture(getShapeFromRectangle(rectangle), density);
-        fixture.setFriction(0.1F);
-
-        //setting the position of the body's origin. In this case with zero rotation
-        body.setTransform(getTransformedCenterForRectangle(rectangle),0);
-    }
-
     public static void buildDynamicBodies(TiledMap tiledMap, World world, String layer, int density){
         MapObjects objects = tiledMap.getLayers().get(layer).getObjects();
         BodyDef bodyDef = new BodyDef();
@@ -41,7 +22,7 @@ public class BodyBuilder {
 
         for (MapObject object: objects) {
             Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
-
+    
             //create a dynamic within the world body (also can be KinematicBody or StaticBody
             //bodyDef.type = BodyDef.BodyType.DynamicBody;
             bodyDef.type = BodyDef.BodyType.StaticBody;
