@@ -14,8 +14,6 @@ public class BodyBuilder {
 
     public enum BodyType{STATIC, DYNAMIC, KINEMATIC}
 
-
-
     public static void buildDynamicBodies(TiledMap tiledMap, World world, String layer, int density){
         MapObjects objects = tiledMap.getLayers().get(layer).getObjects();
         BodyDef bodyDef = new BodyDef();
@@ -24,7 +22,7 @@ public class BodyBuilder {
 
         for (MapObject object: objects) {
             Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
-
+    
             //create a dynamic within the world body (also can be KinematicBody or StaticBody
             //bodyDef.type = BodyDef.BodyType.DynamicBody;
             bodyDef.type = BodyDef.BodyType.StaticBody;

@@ -28,7 +28,7 @@ public class HUD {
         table.top();
         table.setFillParent(true);
 
-        timeLabel =  new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel =  new Label("Bruh", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(timeLabel).expand().padTop(10);
         stage.addActor(table);

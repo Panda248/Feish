@@ -23,8 +23,9 @@ public class Player extends Sprite {
         this.world = world;
         buildPlayer(tiledMap, world, "Player", 0, this);
     }
+
     private void buildPlayer(TiledMap tiledMap, World world, String layer, int density, Player plr ) {
-        MapObject plrObj = tiledMap.getLayers().get(layer).getObjects().get(0);
+        MapObject plrObj = tiledMap.getLayers().get(layer).getObjects().    get(0);
         Rectangle rectangle = ((RectangleMapObject)plrObj).getRectangle();
 
         BodyDef bodyDef = new BodyDef();
