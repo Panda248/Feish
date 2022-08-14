@@ -44,7 +44,7 @@ public class BodyBuilder {
 
             //create a dynamic within the world body (also can be KinematicBody or StaticBody
             //bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bdef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / Aquamarine.PPM, (rectangle.getY() + rectangle.getHeight() / 2) / Aquamarine.PPM);
             Body body = world.createBody(bodyDef);
 
