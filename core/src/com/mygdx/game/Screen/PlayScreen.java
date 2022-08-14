@@ -50,7 +50,7 @@ public class PlayScreen implements Screen {
 
         player = new Player(world, map);
 
-        BodyBuilder.buildDynamicBodies(map, world, "1", 1);
+        BodyBuilder.buildDynamicBodies(map, world, "kys", 1);
         BodyBuilder.buildDynamicBodies(map, world, "2", 1);
 
 
