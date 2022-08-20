@@ -33,7 +33,8 @@ public class PlayScreen implements Screen {
     private final World world;
     private final Box2DDebugRenderer b2dr;
 
-    private final int maxSprint = 8, maxWalk = 4;
+    private int maxSprint = 8, maxWalk = 4;
+    private float runAccel = 1f, walkAccel = 0.5f;
 
     private final Player player;
 
@@ -67,7 +68,7 @@ public class PlayScreen implements Screen {
         player.update(dt);
 
         if(player.curState != Player.State.DEAD) {
-            gameCam.position.x = player.b2body.getPosition().x;
+            gameCam.position.x = player.b2body.getPosition().x + 10;
         }
 
         gameCam.update();
@@ -98,16 +99,16 @@ public class PlayScreen implements Screen {
             player.jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && player.b2body.getLinearVelocity().x <= maxSprint){
-            player.b2body.applyLinearImpulse(new Vector2(0.2f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(runAccel, 0), player.b2body.getWorldCenter(), true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.D) && player.b2body.getLinearVelocity().x <= maxWalk) {
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(walkAccel, 0), player.b2body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && player.b2body.getLinearVelocity().x >= -maxSprint){
-            player.b2body.applyLinearImpulse(new Vector2(-0.2f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(-runAccel, 0), player.b2body.getWorldCenter(), true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && player.b2body.getLinearVelocity().x >= -maxWalk){
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(-walkAccel, 0), player.b2body.getWorldCenter(), true);
         }
     }
 

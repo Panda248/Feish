@@ -17,13 +17,14 @@ public class Player extends Sprite {
     private final boolean playerDead = false;
     private float stateTimer;
 
-    private float density;
+    private float jumpPower;
 
 
 
     public Player(World world, TiledMap tiledMap){
         this.world = world;
         stateTimer = 0;
+        jumpPower = 8;
         buildPlayer();
     }
 
@@ -57,8 +58,8 @@ public class Player extends Sprite {
     }
 
     public void jump(){
-        if ( curState != State.JUMPING ) {
-            b2body.applyLinearImpulse(new Vector2(0, 6f), b2body.getWorldCenter(), true);
+        if ( curState != State.JUMPING && curState != State.FALLING) {
+            b2body.applyLinearImpulse(new Vector2(0, jumpPower), b2body.getWorldCenter(), true);
             curState = State.JUMPING;
         }
     }
@@ -73,6 +74,7 @@ public class Player extends Sprite {
         shape.setRadius(0.5f);
 
         fdef.shape = shape;
+        fdef.friction = 1.5f;
         b2body.createFixture(fdef).setUserData(this);
     }
 
