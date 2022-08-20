@@ -1,6 +1,7 @@
 package com.mygdx.game.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -50,20 +51,12 @@ public class PlayScreen implements Screen {
 
         player = new Player(world, map);
 
-        BodyBuilder.buildDynamicBodies(map, world, "kys", 1);
-        BodyBuilder.buildDynamicBodies(map, world, "2", 1);
-
-
-    }
-
-    public void handleInput(float dt){
-        if (Gdx.input.isTouched()){
-            gameCam.position.x += 100 * dt;
-        }
+        BodyBuilder.buildBody(map, world, "kys");
+        BodyBuilder.buildBody(map, world, "2");
     }
 
     public void update(float dt){
-        handleInput(dt);
+        userInput(dt);
 
         world.step(1/60f, 6, 2);
 
@@ -89,6 +82,25 @@ public class PlayScreen implements Screen {
 
         hud.stage.draw();
     }
+
+    public void userInput(float delta){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
+            player.jump();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && player.b2body.getLinearVelocity().x <= 4){
+            player.b2body.applyLinearImpulse(new Vector2(0.2f, 0), player.b2body.getWorldCenter(), true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.D) && player.b2body.getLinearVelocity().x <= 2) {
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && player.b2body.getLinearVelocity().x >= -4){
+            player.b2body.applyLinearImpulse(new Vector2(-0.2f, 0), player.b2body.getWorldCenter(), true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && player.b2body.getLinearVelocity().x >= -2){
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+    }
+
 
     @Override
     public void show() {

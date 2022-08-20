@@ -14,11 +14,12 @@ public class BodyBuilder {
 
     public enum BodyType{STATIC, DYNAMIC, KINEMATIC}
 
-    public static void buildDynamicBodies(TiledMap tiledMap, World world, String layer, int density){
+    public static void buildBody(TiledMap tiledMap, World world, String layer){
         //MapObjects objects = );
         BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
+        Body body;
 
         for (MapObject object: tiledMap.getLayers().get(layer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
@@ -26,14 +27,14 @@ public class BodyBuilder {
             //create a dynamic within the world body (also can be KinematicBody or StaticBody
             //bodyDef.type = BodyDef.BodyType.DynamicBody;
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((rectangle.getX() + (rectangle.getWidth() / 2)), (rectangle.getY() + (rectangle.getHeight() / 2)));
-            Body body = world.createBody(bodyDef);
+            bodyDef.position.set((rectangle.getX() + (rectangle.getWidth() / 2)) / Aquamarine.PPM, (rectangle.getY() + (rectangle.getHeight() / 2)) / Aquamarine.PPM);
+            body = world.createBody(bodyDef);
 
             //create a fixture for each body from the shape
             //Fixture fixture = body.createFixture(getShapeFromRectangle(rectangle), density);
             //fixture.setFriction(0.1F);
 
-            shape.setAsBox(rectangle.getWidth() / 2 , rectangle.getHeight() / 2 );
+            shape.setAsBox(rectangle.getWidth() / 2 / Aquamarine.PPM, rectangle.getHeight() / 2 / Aquamarine.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
 
