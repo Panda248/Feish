@@ -13,9 +13,9 @@ import com.mygdx.game.Aquamarine;
 
 public class HUD {
     public Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
 
-    private Integer timer;
+    private final Integer timer;
 
     Label timeLabel;
 
@@ -30,7 +30,7 @@ public class HUD {
 
         timeLabel =  new Label("Bruh", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(timeLabel).expand().padTop(10);
+        table.add(timeLabel);
         stage.addActor(table);
     }
 }

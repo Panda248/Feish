@@ -9,8 +9,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Aquamarine;
 import com.mygdx.game.Entities.Player;
 import com.mygdx.game.Scenes.HUD;
@@ -18,20 +20,20 @@ import com.mygdx.game.Tools.BodyBuilder;
 
 public class PlayScreen implements Screen {
 
-    private Aquamarine game;
-    private OrthographicCamera gameCam;
-    private Viewport gamePort;
+    private final Aquamarine game;
+    private final OrthographicCamera gameCam;
+    private final Viewport gamePort;
 
-    private HUD hud;
+    private final HUD hud;
 
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
+    private final TmxMapLoader mapLoader;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer mapRenderer;
 
-    private World world;
-    private Box2DDebugRenderer b2dr;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
 
-    private Player player;
+    private final Player player;
 
     public PlayScreen(Aquamarine game){
         this.game = game;
@@ -59,6 +61,12 @@ public class PlayScreen implements Screen {
         userInput(dt);
 
         world.step(1/60f, 6, 2);
+
+        player.update(dt);
+
+        if(player.curState != Player.State.DEAD) {
+            gameCam.position.x = player.b2body.getPosition().x;
+        }
 
         gameCam.update();
         mapRenderer.setView(gameCam);

@@ -1,28 +1,21 @@
 package com.mygdx.game.Entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.Tools.BodyBuilder;
-
-import static com.mygdx.game.Tools.BodyBuilder.getShapeFromRectangle;
-import static com.mygdx.game.Tools.BodyBuilder.getTransformedCenterForRectangle;
 
 public class Player extends Sprite {
-    public enum State { FALLING, STANDING, WALKING, SPRINTING, JUMPING, SWIMMING, DEAD};
+    public enum State { FALLING, STANDING, WALKING, SPRINTING, JUMPING, SWIMMING, DEAD}
+
     public State prevState, curState;
 
     public World world;
     public Body b2body;
 
-    private boolean playerDead = false;
-
-    private float x, y;
+    private final boolean playerDead = false;
+    private float stateTimer;
 
     private float density;
 
@@ -30,11 +23,14 @@ public class Player extends Sprite {
 
     public Player(World world, TiledMap tiledMap){
         this.world = world;
+        stateTimer = 0;
         buildPlayer();
     }
 
-    public void update(float delta){
-
+    public void update(float dt){
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+        //setRegion(getFrame(dt));
+        getFrame(dt);
     }
 
     public State getState(){
@@ -48,6 +44,16 @@ public class Player extends Sprite {
             return State.WALKING;
         else
             return State.STANDING;
+    }
+
+    public TextureRegion getFrame(float dt){
+        curState = getState();
+
+        TextureRegion region;
+
+        stateTimer = curState == prevState ? stateTimer + dt : 0;
+        prevState = curState;
+        return null;
     }
 
     public void jump(){
@@ -68,5 +74,9 @@ public class Player extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
+    }
+
+    public float getStateTimer(){
+        return stateTimer;
     }
 }
