@@ -58,7 +58,7 @@ public class Player extends Sprite {
 
     public void jump(){
         if ( curState != State.JUMPING ) {
-            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+            b2body.applyLinearImpulse(new Vector2(0, 6f), b2body.getWorldCenter(), true);
             curState = State.JUMPING;
         }
     }
