@@ -8,19 +8,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Aquamarine;
 
+import java.util.ArrayList;
+
 public class BodyBuilder {
 
     public enum BodyType{STATIC, DYNAMIC, KINEMATIC}
 
-    public static void buildBody(TiledMap tiledMap, World world, String layer){
+    public static ArrayList<Body> buildBody(TiledMap tiledMap, World world, String layer){
         //MapObjects objects = );
         BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
 
+        ArrayList<Body> bodyList = new ArrayList<>();
+
         for (MapObject object: tiledMap.getLayers().get(layer).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
+
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
     
             //create a dynamic within the world body (also can be KinematicBody or StaticBody
             //bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -35,9 +40,16 @@ public class BodyBuilder {
             shape.setAsBox(rectangle.getWidth() / 2 / Aquamarine.PPM, rectangle.getHeight() / 2 / Aquamarine.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
-
+            bodyList.add(body);
             //setting the position of the body's origin. In this case with zero rotation
             //body.setTransform(getTransformedCenterForRectangle(rectangle),0);
+        }
+        return bodyList;
+    }
+
+    public static void breakBody(TiledMap tiledMap, World world, ArrayList<Body> body, int x, int y, int layer){
+        if (body.get(x) != null){
+            world.destroyBody(body.get(x));
         }
     }
 
